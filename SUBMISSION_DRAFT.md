@@ -16,6 +16,14 @@ I interpreted “Ghost in the Machine” as a way to honor the stories people ca
 
 The **Try the cloud sample** button works without installing anything. It sends only the built-in fictional relay to hosted Gemma; it never sends a visitor’s saved relay. To use the local path with your own words, follow the Ollama steps in the project README.
 
+## How to Use Echoes
+
+1. Open the live demo and read the fictional starter relay to see how two accounts can preserve different details about the same moment.
+2. Select **Start a memory relay**. Enter the moment, your name or initials, and your account. The relay is saved in this browser.
+3. Select **Add another voice** on the relay to add another person’s account on the same device. Echoes does not sync memories between devices.
+4. For a no-install preview, select **Try the cloud sample**; it uses only the fictional example. To ask about your own relay, install Ollama, run `ollama pull gemma3:4b` and `ollama serve`, then run `python3 -m http.server 8000` from the project folder and open `http://localhost:8000`. Select **Suggest a question** to send your relay to Ollama on this device.
+5. Select **Export keepsake** to download a Markdown backup, or **Clear memories from this device** to remove the saved relays from this browser.
+
 ## Code
 
 [View the Echoes source on GitHub](https://github.com/karthik-zoro-96/echoes)
