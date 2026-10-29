@@ -1,38 +1,40 @@
-# Echoes: One Moment, Many Memories
+# Echoes: Memory Relay — Let a memory keep its different voices
 
-> Draft for the [Hacktoberfest Open-Source AI Challenge, Week 4: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26). Add a genuine personal motivation or observed moment only if you want to share one; do not invent family testing or model metrics.
+> Submission for the [Hacktoberfest Open-Source AI Challenge, Week 4: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26).
 
-## What I built
+Ask two people about the same walk home and you may hear two different stories. One remembers the warm pavement. The other remembers soaked socks. It is tempting to blend the accounts into one clean version. But a shared memory does not always have one owner, and disagreement can be part of what makes it worth keeping.
 
-Echoes is a local-first memory relay. One person writes down a shared moment in their own words; another person can add a different account beside it. Echoes keeps the voices separate instead of blending them into a single authoritative story.
+That is the idea behind **Echoes**: pass a memory hand to hand, leave every voice in its own words, and help someone find a kind question to ask next.
 
-An open-weight Gemma model has one small job: suggest a gentle follow-up question that might help another person add their perspective. Echoes does not imitate the person being remembered. It labels each question as a suggestion for a human to review.
-
-## Try it
+## Try Echoes
 
 - **Live demo:** https://echoes-pearl-omega.vercel.app/
 - **Source code:** https://github.com/karthik-zoro-96/echoes
 
-The starter entry is explicitly fictional. The hosted demo sends only that fixed example to Gemma 4 through Vercel AI Gateway; it does not send anything from a visitor's saved relay. To try the private path, install Ollama, run `ollama pull gemma3:4b`, start Ollama, serve the app from `localhost`, and add your own relay. The app can export those accounts as Markdown.
+The sample story in the app is fictional. The **Try the cloud sample** button sends only that fixed example to Gemma 4 through Vercel AI Gateway; it never sends the visitor's saved relay. In one live request, Gemma suggested: *“How did it feel to step through that puddle?”* The app shows the source word it carried over so a person can inspect the suggestion.
 
-## How it works
+## What the model does
 
-The interface is plain HTML, CSS, and JavaScript. Relay entries live in the current browser's local storage. In private mode, the browser sends the accounts to Ollama running on `localhost:11434`; the question is generated on that device. The hosted judge route accepts only a bodyless `GET` request, constructs the model prompt from a fixed fictional sample on the server, and keeps the Gateway key in a Vercel environment variable. It rejects cross-origin requests and caches successful responses at the edge. Caching helps reduce repeat inference, but is not a strict spending limit.
+Echoes gives Gemma a deliberately narrow role. It reads accounts of a shared moment and suggests one gentle, open question for another person. It does not speak as someone who has died, invent a memory, or decide which version is true. A person reviews the suggestion before using it.
 
-After Gemma suggests a question, Echoes checks whether it reused a meaningful word from the source stories and retries once if it did not. The interface shows that word to help a person inspect the suggestion. This lexical check is not proof that the whole question is grounded, so the person still reviews it.
+The private path runs Gemma locally through Ollama. Start with `ollama pull gemma3:4b`, run `ollama serve`, then open the site from a local web server and add a relay of your own. The model field is editable, so people can try another compatible Ollama model. Local inference sends the accounts to Ollama on the same device; it does not send them to a hosted AI provider.
 
-## Why open innovation matters here
+The hosted judge preview exists so someone can try the interaction without installing a model. Its serverless route accepts only a bodyless `GET`, constructs the prompt from a fixed fictional story, and keeps the Gateway key in a Vercel environment variable. It rejects cross-origin requests and caches successful results at the edge. The cache can reduce repeated calls, but it is not a strict spending limit.
 
-Family stories are personal. A locally run open-weight model lets a family generate a question without sending their archive to a hosted AI provider. The model and prompt can be inspected or changed, and the inference path stays on localhost. The plain-text Markdown export stays useful even if a specific model or runtime is replaced later.
+After generation, Echoes checks whether the question reuses a meaningful word from the source and retries once if it does not. This is a small lexical check, not proof that the full question is grounded. The model can still make an assumption, so the person stays responsible for the question.
 
-The trade-off is setup: each person needs a local runtime and must download model weights. A small model may be slow or may suggest a question that assumes something not present in the accounts. Echoes keeps the model's role narrow and visible, and leaves the decision with the people sharing the memory.
+## Why open models matter for memory
 
-The hosted sample makes the interaction available to judges without installing a model, while keeping real visitor stories out of that request. It's a convenience demo, not the privacy-preserving path.
+Family stories are personal. Running an open-weight model locally means a family can ask for a follow-up without sending its archive to a hosted AI service. The prompt and model can be inspected or changed, and the inference path stays on the computer holding the stories. The app also exports the relay as plain Markdown, so the archive remains readable if a particular model or runtime disappears.
+
+Local-first has a cost: each person must install Ollama, download model weights, and use a device with enough resources. A small model may be slow or may produce a weak question. Echoes makes that trade-off visible and keeps the model's role small. The tool should help people continue a conversation, not tell them what their memories mean.
+
+## Built with
+
+Plain HTML, CSS, and JavaScript; browser `localStorage`; Ollama; Gemma 3 4B for local inference; Gemma 4 26B A4B through Vercel AI Gateway for the fixed fictional preview; and a Vercel serverless function. There are no analytics or hosted font requests.
 
 ## Prize category
 
-- Best Use of Gemma
-
-## Tags
+Best Use of Gemma
 
 `#devchallenge` `#hf26challenge` `#gemma`
