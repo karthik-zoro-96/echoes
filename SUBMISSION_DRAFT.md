@@ -6,6 +6,10 @@ Ask two people about the same walk home and you may hear two different stories. 
 
 That is the idea behind **Echoes**: pass a memory hand to hand, leave every voice in its own words, and help someone find a kind question to ask next.
 
+![Echoes local interface showing a small collection of everyday memories](https://raw.githubusercontent.com/karthik-zoro-96/echoes/main/screenshots/echoes-submission.png)
+
+*Screenshot of the local memory-board interface. The hosted judge demo below currently shows the separate fixed fictional relay sample.*
+
 ## Try Echoes
 
 - **Live demo:** https://echoes-pearl-omega.vercel.app/
