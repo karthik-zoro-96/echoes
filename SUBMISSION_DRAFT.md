@@ -1,46 +1,37 @@
 # Echoes: One Moment, Many Memories
 
-> **Before publishing:** replace every bracketed note with a real detail from your build, add the repository and demo links, and include only results you personally observed. Do not publish this note or the fictional sample as a real family story.
-
-This is my submission for the [Hacktoberfest Open-Source AI Challenge, Week 4: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26).
+> Draft for the [Hacktoberfest Open-Source AI Challenge, Week 4: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26). Replace the demo placeholder after deployment. Add a genuine personal motivation or observed moment only if you want to share one; do not invent family testing or model metrics.
 
 ## What I built
 
 Echoes is a local-first memory relay. One person writes down a shared moment in their own words; another person can add a different account beside it. Echoes keeps the voices separate instead of blending them into a single authoritative story.
 
-The local model has one small job: suggest a gentle follow-up question that might help another person add their perspective. Echoes does not imitate the person being remembered, and the question is labeled as a suggestion for a human to review.
+An open-weight Gemma model has one small job: suggest a gentle follow-up question that might help another person add their perspective. Echoes does not imitate the person being remembered. It labels each question as a suggestion for a human to review.
 
-## Demo
+## Try it
 
-[Add a short screen recording or screenshots here.]
+- **Live demo:** [Add Vercel deployment URL after deployment]
+- **Source code:** https://github.com/karthik-zoro-96/echoes
 
-The starter entry in the app is explicitly fictional. It is there to demonstrate the relay and is excluded from the model request. To try local question generation, install Ollama, run `ollama pull gemma3:4b`, start Ollama, serve the app from `localhost`, and add your own relay. The app can export the saved accounts as Markdown.
+The starter entry is explicitly fictional. The hosted demo sends only that fixed example to Gemma 4 through Vercel AI Gateway; it does not send anything from a visitor's saved relay. To try the private path, install Ollama, run `ollama pull gemma3:4b`, start Ollama, serve the app from `localhost`, and add your own relay. The app can export those accounts as Markdown.
 
-## Code
+## How it works
 
-[Add the public repository URL here.]
+The interface is plain HTML, CSS, and JavaScript. Relay entries live in the current browser's local storage. In private mode, the browser sends the accounts to Ollama running on `localhost:11434`; the question is generated on that device. The hosted judge route accepts only a bodyless `GET` request, constructs the model prompt from a fixed fictional sample on the server, and keeps the Gateway key in a Vercel environment variable. It rejects cross-origin requests and caches successful responses at the edge. Caching helps reduce repeat inference, but is not a strict spending limit.
 
-## How I built it
+After Gemma suggests a question, Echoes checks whether it reused a meaningful word from the source stories and retries once if it did not. The interface shows that word to help a person inspect the suggestion. This lexical check is not proof that the whole question is grounded, so the person still reviews it.
 
-The interface is plain HTML, CSS, and JavaScript. Relay entries live in the current browser's local storage. In private mode, a question request goes from the browser to Ollama at `localhost:11434`. For the public judge preview, a Cloudflare Worker sends one fixed fictional sample to hosted Gemma 4; the browser sends no relay text to that endpoint. The model and prompt can be changed, and the local inference request stays on localhost. I removed external font and analytics requests.
+## Why open innovation matters here
 
-After a model suggests a question, Echoes checks whether it reused a meaningful word from the source stories and retries once if it did not. The interface shows that word to help a person inspect the suggestion. This is only a lexical check; it does not prove the whole question is grounded, so the person still reviews it.
+Family stories are personal. A locally run open-weight model lets a family generate a question without sending their archive to a hosted AI provider. The model and prompt can be inspected or changed, and the inference path stays on localhost. The plain-text Markdown export stays useful even if a specific model or runtime is replaced later.
 
-**Observed run:** [Add the exact model, device, cold/warm timing, and what you checked. Do not estimate or invent these results.]
+The trade-off is setup: each person needs a local runtime and must download model weights. A small model may be slow or may suggest a question that assumes something not present in the accounts. Echoes keeps the model's role narrow and visible, and leaves the decision with the people sharing the memory.
 
-## Why open innovation matters
+The hosted sample makes the interaction available to judges without installing a model, while keeping real visitor stories out of that request. It's a convenience demo, not the privacy-preserving path.
 
-Family memories deserve a tool whose model and data path people can inspect. A local open-weight model lets the question suggestion run on a device the family controls. The prompt and model can be changed, and the archive remains usable as plain Markdown even if a particular model or runtime is replaced later.
+## Prize category
 
-There is a trade-off: each person must install a local runtime and download model weights. A small model may be slow or may suggest a question that assumes something not in the stories. Echoes makes the model's role visible and keeps a person responsible for deciding whether the suggestion belongs in the conversation.
-
-## The spirit of it
-
-[Add your genuine reason for building this, and one specific moment from trying it with consent. If you have not tried it with another person, describe what you hope the relay makes possible instead.]
-
-## Prize categories
-
-- Best Use of Gemma — [Keep this only if your submitted project actually uses Gemma in the way the category requires.]
+- Best Use of Gemma
 
 ## Tags
 

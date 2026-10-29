@@ -1,59 +1,50 @@
 # Echoes: Memory Relay
 
-**One moment. Many memories.** Echoes lets people add their own account of a shared moment, keeps each voice side by side, and uses an open-weight model to suggest a gentle follow-up question. Private mode uses local Ollama; a separate judge preview uses a hosted model only with a fixed fictional example. It does not imitate the person being remembered or decide which version is true.
+**One moment. Many memories.** Echoes gives people space to add their own account of a shared moment, keeping each voice separate. An open-weight model can suggest a gentle follow-up question; it does not imitate someone being remembered or decide which version is true.
+
+## Try the judge demo
+
+Deploy this repository to Vercel and add `AI_GATEWAY_API_KEY` as a server-side environment variable for the deployment. The key is used only by `api/demo-question.js`; never put it in browser code, commit it, or share it in a public issue. The app's **Try the cloud sample** button calls a bodyless `GET` endpoint. That server route ignores visitor data and sends only its hard-coded fictional example to Gemma 4 through Vercel AI Gateway. Successful results are cached at the Vercel edge for one hour. This public endpoint has no strict global request quota; configure a Gateway budget and review usage before sharing it widely.
+
+To deploy, import `karthik-zoro-96/echoes` into Vercel with the repository root as the project root, add `AI_GATEWAY_API_KEY` under **Settings → Environment Variables** for Preview and Production, then deploy. The function returns a helpful setup message until the key is configured. Vercel can also add the environment variable with its CLI; enter the key in the CLI prompt, not in a command argument.
 
 ## Private local mode
 
 1. Install [Ollama](https://ollama.com/download).
 2. Pull Gemma: `ollama pull gemma3:4b`.
 3. Start Ollama: `ollama serve` (if it is not already running).
-4. In this directory, start a local web server: `python3 -m http.server 8000`.
+4. In the project root, start a local web server: `python3 -m http.server 8000`.
 5. Open `http://localhost:8000` in your browser.
 
-The **Suggest a question** action sends the saved accounts to `http://localhost:11434/api/generate`. It requires Ollama's local API to allow requests from the page's localhost origin. The model is editable in the interface; any Ollama model compatible with `/api/generate` can be selected. This private path stays on the visitor's device. The cloud sample button is not available from this simple Python server; it becomes available after the Worker is deployed.
-
-## Public judge demo (Cloudflare Workers AI)
-
-The **Try the cloud sample** button uses the Worker endpoint `/api/demo-question`. It sends a bodyless `GET`; the Worker does not read browser storage and builds its model request from a fixed fictional sample in `worker.js`. The page never forwards a visitor's relay to this endpoint. The returned question is labeled as a hosted-model result and cached at the edge for one hour. A Cloudflare rate-limit binding adds a best-effort per-IP limit on cache misses.
-
-This demo uses Cloudflare Workers AI's hosted open-weight Gemma 4 model (`@cf/google/gemma-4-26b-a4b-it`). Cloudflare's current Workers AI docs describe an included 10,000-neuron daily allocation; usage beyond that on a paid Workers plan is metered. **Workers AI calls can incur usage even during `wrangler dev`**, so do not call the hosted endpoint while developing unless you intend to use the Cloudflare account's allocation. Check [current pricing](https://developers.cloudflare.com/workers-ai/platform/pricing/) before enabling the endpoint.
-
-After pushing this directory to GitHub and connecting the repository to a Cloudflare account with Workers AI enabled:
-
-1. Install a current Wrangler CLI, or use `npx wrangler@latest`.
-2. Run `npx wrangler login` and finish the Cloudflare login in your browser.
-3. Review `wrangler.jsonc`; change `ratelimits[0].namespace_id` to an unused integer in your Cloudflare account if needed.
-4. Run `npx wrangler deploy` from this directory.
-
-Cloudflare deploys the site assets and Worker together. `wrangler.jsonc` binds Workers AI and rate limiting; `.assetsignore` keeps server files and the submission draft out of the public asset bundle. Do not add a provider key or family data to the repository. `wrangler dev` can also call the hosted model and is metered.
+The **Suggest a question** action sends the relays you created to `http://localhost:11434/api/generate`. It requires Ollama's local API to allow requests from the page's localhost origin. You can select another Ollama model compatible with `/api/generate`. This private path stays on the visitor's device. The fictional starter sample is excluded from this model request.
 
 ## How it works
 
 - A relay stores a shared-moment prompt and one or more attributed responses.
-- Browser `localStorage` keeps the relay on the current browser profile. It is not a shared cloud archive.
-- Local Gemma receives user-created relay text and returns one suggested, open-ended question. The fictional starter sample is excluded. The app requires a generated question to reuse a meaningful word from the source text, retries once if it does not, and shows that word as a review aid. This lexical check is not proof that the whole question is factually grounded.
-- The hosted judge demo receives only its fixed fictional sample; it never receives visitor-created relays. Its edge cache and per-IP rate limit reduce repeated inference, but the rate limit is approximate and not a strict global spend cap.
+- Browser `localStorage` keeps relay entries in the current browser profile; it is not a shared cloud archive.
+- Local Gemma returns one suggested, open-ended question. The app requires a generated question to reuse a meaningful word from the source, retries once if it does not, and shows that word as a review aid. This lexical check does not prove the full question is factually grounded.
+- The hosted judge demo receives only its fixed fictional sample. Its route accepts only bodyless `GET` requests, rejects query parameters and cross-origin requests, and never reads browser storage. Successful responses are cached at the edge; caching is not a strict spend limit.
 - A Markdown keepsake can be downloaded for backup or sharing. The export preserves individual responses and marks the built-in fictional sample as fictional.
-- The **Clear memories from this device** action removes saved relays from this browser.
+- **Clear memories from this device** removes saved relays from this browser.
 
-The starter story uses invented characters and is labeled **Fictional example**. You can remove it for a clean personal archive. Get each contributor's permission before recording or sharing their account.
+The starter story uses invented characters and is labeled **Fictional example**. Remove it for a clean personal archive. Get each contributor's permission before recording or sharing their account.
 
 ## Why open AI
 
-Family stories are personal. In private mode, a local open-weight model generates questions on a computer the family controls, without sending the archive to a hosted AI provider. The model and prompt can be inspected or changed, and that inference request stays on localhost. The optional judge preview demonstrates hosted Gemma using invented sample text only. The browser sends no relay text to that endpoint. The page uses system fonts and includes no analytics or hosted fonts.
+Family stories are personal. In private mode, an open-weight local model generates questions on a computer the family controls, without sending the archive to a hosted AI provider. The model and prompt can be inspected or changed, and that inference request stays on localhost. The optional judge preview demonstrates hosted Gemma using invented sample text only. The browser sends no relay text to that endpoint. The page uses system fonts and includes no analytics or hosted fonts.
 
 ## Honest limits
 
-- The public judge route is not deployed yet. It needs a Cloudflare account with Workers AI enabled. A public website cannot reach each visitor's Ollama automatically; personal relays still require the local setup above.
+- A public website cannot reach each visitor's Ollama automatically; personal relays still require the local setup above.
 - Local storage is tied to one browser profile and can be cleared by browser settings. Export the Markdown keepsake for a backup.
-- The model can still suggest a question that assumes something not in the stories. The source-word check is deliberately modest; review every suggestion before sharing.
+- The question can still assume something not present in the stories. Review every suggestion before sharing.
+- The hosted sample endpoint uses edge caching but has no strict global rate or spend cap. Set a Vercel AI Gateway budget and monitor usage.
 - No audio recording, transcription, user accounts, sync, or encrypted archive is included.
-- A local model needs to be downloaded once and requires suitable device resources. After setup, inference can run without a hosted model API.
+- A local model must be downloaded once and needs suitable device resources. After setup, inference can run without a hosted model API.
 
 ## Files
 
 - `index.html` — interface, dialogs, and model-mode privacy disclosures
-- `styles.css` — responsive, candlelit story layout and system-font design
-- `app.js` — relay storage, local Ollama request, and Markdown export
-- `worker.js` — fixed-sample hosted Gemma endpoint for the public judge preview
-- `wrangler.jsonc` — Cloudflare Workers AI, rate limit, cache, and static asset setup
+- `styles.css` — responsive layout and system-font design
+- `app.js` — relay storage, local Ollama request, cloud sample request, and Markdown export
+- `api/demo-question.js` — fixed-sample Vercel Function for the hosted Gemma preview

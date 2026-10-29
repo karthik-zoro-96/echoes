@@ -47,7 +47,7 @@
         <div class="model-row"><span class="model-dot"></span><label for="modelName">LOCAL MODEL</label><input id="modelName" value="gemma3:4b" aria-label="Ollama model name"><span class="model-host">OLLAMA</span></div>
         <button class="primary-button" id="questionButton">Suggest a question <span aria-hidden="true">↗</span></button>
         <p class="model-hint" id="modelHint">Needs Ollama running locally. <a href="https://ollama.com/download" target="_blank" rel="noreferrer">Get Ollama ↗</a></p>
-        <div class="demo-box"><p class="demo-kicker">FOR JUDGES · NO INSTALL REQUIRED</p><p>Try hosted Gemma with a fixed fictional sample. This demo never sends your saved relay.</p><button class="secondary-button" id="demoButton">Try the cloud sample</button><p class="demo-disclosure">Only the sample story is sent to Cloudflare Workers AI. Local relay entries stay on this device.</p></div>
+        <div class="demo-box"><p class="demo-kicker">FOR JUDGES · NO INSTALL REQUIRED</p><p>Try hosted Gemma with a fixed fictional sample. This demo never sends your saved relay.</p><button class="secondary-button" id="demoButton">Try the cloud sample</button><p class="demo-disclosure">Only the sample story is sent to Gemma through Vercel AI Gateway. Local relay entries stay on this device.</p></div>
       </div>
       <div class="story-output" id="storyOutput"><div class="output-flower">✳</div><p class="output-label">A QUESTION FOR THE NEXT VOICE</p><p class="output-placeholder">The model will suggest<br>one thing to ask.</p><span class="output-rule"></span><span class="output-credit">SUGGESTED LOCALLY · REVIEW BEFORE SHARING</span></div>
     </section>

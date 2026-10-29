@@ -227,14 +227,14 @@ async function previewHostedDemo() {
   output.innerHTML = '<div class="output-flower">✳</div><p class="output-label">ASKING HOSTED GEMMA ABOUT THE FICTIONAL SAMPLE</p><p class="output-placeholder">Your saved relay<br>is not part of this request.</p>';
   button.disabled = true; button.textContent = 'Loading sample…';
   try {
-    // Deliberately send no request body. The Worker owns the fixed fictional sample.
+    // Deliberately send no request body. The server owns the fixed fictional sample.
     const response = await fetch('/api/demo-question', { method: 'GET', headers: { Accept: 'application/json' } });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(data.error || `Hosted demo returned ${response.status}.`);
     const question = String(data.question || '').trim();
     if (!question) throw new Error('The hosted model returned an empty question. Try again later.');
     output.classList.remove('generating');
-    output.innerHTML = `<div class="output-flower">✳</div><p class="output-label">HOSTED GEMMA · FICTIONAL SAMPLE · REVIEW BEFORE SHARING</p><p class="output-question">${escapeHTML(question)}</p><p class="grounding-note">Source word carried over: <strong>${escapeHTML(data.sourceWord || 'sample story')}</strong></p><div class="output-actions"><button id="useQuestion">Start a relay with this</button><button id="copyQuestion">Copy question</button></div><span class="output-rule"></span><span class="output-credit">${escapeHTML(data.model || 'GEMMA 4')} · HOSTED BY CLOUDFLARE WORKERS AI</span>`;
+    output.innerHTML = `<div class="output-flower">✳</div><p class="output-label">HOSTED GEMMA · FICTIONAL SAMPLE · REVIEW BEFORE SHARING</p><p class="output-question">${escapeHTML(question)}</p><p class="grounding-note">Source word carried over: <strong>${escapeHTML(data.sourceWord || 'sample story')}</strong></p><div class="output-actions"><button id="useQuestion">Start a relay with this</button><button id="copyQuestion">Copy question</button></div><span class="output-rule"></span><span class="output-credit">${escapeHTML(data.model || 'GEMMA 4')} · HOSTED BY VERCEL AI GATEWAY</span>`;
     document.querySelector('#useQuestion').addEventListener('click', () => openRelay(question));
     document.querySelector('#copyQuestion').addEventListener('click', async () => {
       try { await navigator.clipboard.writeText(question); showToast('Question copied.'); }

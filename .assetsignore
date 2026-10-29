@@ -1,9 +1,0 @@
-.assetsignore
-.git
-.gitignore
-.wrangler
-.dev.vars*
-worker.js
-wrangler.jsonc
-README.md
-SUBMISSION_DRAFT.md
