@@ -17,6 +17,8 @@ That is the idea behind **Echoes**: pass a memory hand to hand, leave every voic
 
 The sample story in the app is fictional. The **Try the cloud sample** button sends only that fixed example to Gemma 4 through Vercel AI Gateway; it never sends the visitor's saved relay. In one live request, Gemma suggested: *“How did it feel to step through that puddle?”* The app shows the source word it carried over so a person can inspect the suggestion.
 
+To try Echoes, read the fictional starter, select **Start a memory relay**, and enter a moment with your own account. Add another voice on the same device to keep a second person's account beside it. Choose **Try the cloud sample** for a no-install preview, or set up Ollama and choose **Suggest a question** to use a local model with your own relay. **Export keepsake** downloads a Markdown copy; **Clear memories from this device** removes the browser's saved relays.
+
 ## What the model does
 
 Echoes gives Gemma a deliberately narrow role. It reads accounts of a shared moment and suggests one gentle, open question for another person. It does not speak as someone who has died, invent a memory, or decide which version is true. A person reviews the suggestion before using it.

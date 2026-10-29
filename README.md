@@ -10,6 +10,14 @@ The project is deployed on Vercel with `AI_GATEWAY_API_KEY` configured as a serv
 
 To deploy, import `karthik-zoro-96/echoes` into Vercel with the repository root as the project root, add `AI_GATEWAY_API_KEY` under **Settings → Environment Variables** for Preview and Production, then deploy. The function returns a helpful setup message until the key is configured. Vercel can also add the environment variable with its CLI; enter the key in the CLI prompt, not in a command argument.
 
+## Use Echoes step by step
+
+1. Open the [live demo](https://echoes-pearl-omega.vercel.app/) and read the starter relay. It is fictional and demonstrates how two people can describe a moment differently.
+2. Select **Start a memory relay**. Enter a moment, who is sharing it, and their account. The relay is saved in this browser's local storage.
+3. Select **Add another voice** on the relay to add another person's account on this same device. Echoes does not sync between devices or invite people remotely.
+4. Choose how to try the question suggestion. **Try the cloud sample** needs no install and uses only the built-in fictional story. To generate a question from your own relay, set up local Ollama using the steps below, then select **Suggest a question**.
+5. Select **Export keepsake** to download a Markdown backup. Select **Clear memories from this device** when you want to remove the local relay.
+
 ## Private local mode
 
 1. Install [Ollama](https://ollama.com/download).

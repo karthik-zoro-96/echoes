@@ -36,13 +36,23 @@
       </div>
     </section>
 
+    <section class="how-to" aria-labelledby="howToTitle">
+      <div class="how-to-heading"><p class="eyebrow">A QUICK WALKTHROUGH</p><h2 id="howToTitle">Make room for another voice.</h2></div>
+      <ol class="how-to-steps">
+        <li><span class="step-number">01</span><div><h3>Explore the example</h3><p>Read the two fictional accounts below. They show how one moment can hold different details.</p><a href="#memoryTitle">See the example ↓</a></div></li>
+        <li><span class="step-number">02</span><div><h3>Add a memory</h3><p>Start a relay with a moment and your account. Add another voice on this device when someone is ready to share theirs.</p></div></li>
+        <li><span class="step-number">03</span><div><h3>Choose a question path</h3><p>Use Ollama for your own relay, with inference on this device. Or try hosted Gemma with the fictional sample only.</p><a href="#storyPanel">Choose a path ↓</a></div></li>
+        <li><span class="step-number">04</span><div><h3>Keep a copy</h3><p>Export a Markdown keepsake for backup. Clear memories removes the saved relay from this browser.</p></div></li>
+      </ol>
+    </section>
+
     <section class="memory-section" aria-labelledby="memoryTitle">
       <div class="section-heading"><div><p class="eyebrow">THE RELAY SO FAR</p><h2 id="memoryTitle">A walk home after rain</h2></div><span id="relayCount" class="count">01 SHARED MOMENT</span></div>
       <div class="relay-list" id="relayList"></div>
       <div class="section-actions"><button class="secondary-button" id="addRelayButton">＋ Start another moment</button><button class="quiet-button" id="clearButton">Clear memories from this device</button></div>
     </section>
 
-    <section class="story-panel">
+    <section class="story-panel" id="storyPanel">
       <div class="story-copy"><p class="eyebrow">KEEP THE CONVERSATION GOING</p><h2>What might you<br><em>ask next?</em></h2><p>Gemma reads the stories saved here and suggests one open question for another person. It never answers as your loved one. You decide whether the question feels right.</p>
         <div class="model-row"><span class="model-dot"></span><label for="modelName">LOCAL MODEL</label><input id="modelName" value="gemma3:4b" aria-label="Ollama model name"><span class="model-host">OLLAMA</span></div>
         <button class="primary-button" id="questionButton">Suggest a question <span aria-hidden="true">↗</span></button>
@@ -66,7 +76,7 @@
     <label for="voiceResponseInput">Tell it in their own words</label><textarea id="voiceResponseInput" rows="5" maxlength="700" placeholder="A different detail, the same moment, or something entirely your own." required></textarea>
     <div class="dialog-actions"><span>No right or wrong version.</span><button class="primary-button" type="submit">Add this voice</button></div>
   </form></dialog>
-  <dialog id="aboutDialog"><form method="dialog" class="about-card"><button class="close-button" aria-label="Close">×</button><p class="eyebrow">WHY OPEN AI?</p><h2>Memory isn't a dataset to hand over.</h2><p>Echoes keeps each person's account separate. In private mode, Gemma runs through Ollama on your own computer and suggests a question from the stories you choose to save. It does not speak as the person you remember or decide whose version is true.</p><p>The optional judge demo sends one fixed fictional story to hosted Gemma through Cloudflare Workers AI. It never sends your relay. Saved stories stay in this browser's local storage. The page uses system fonts and makes no analytics or third-party font requests.</p><p class="about-foot">A suggestion is only a suggestion. People keep authorship.</p><button class="secondary-button">Close</button></form></dialog>
+  <dialog id="aboutDialog"><form method="dialog" class="about-card"><button class="close-button" aria-label="Close">×</button><p class="eyebrow">WHY OPEN AI?</p><h2>Memory isn't a dataset to hand over.</h2><p>Echoes keeps each person's account separate. In private mode, Gemma runs through Ollama on your own computer and suggests a question from the stories you choose to save. It does not speak as the person you remember or decide whose version is true.</p><p>The optional judge demo sends one fixed fictional story to hosted Gemma through Vercel AI Gateway. It never sends your relay. Saved stories stay in this browser's local storage. The page uses system fonts and makes no analytics or third-party font requests.</p><p class="about-foot">A suggestion is only a suggestion. People keep authorship.</p><button class="secondary-button">Close</button></form></dialog>
   <dialog id="confirmDialog"><form method="dialog" class="about-card"><p class="eyebrow">CLEAR THIS DEVICE?</p><h2>Remove the saved memories?</h2><p>This erases the relay from this browser. Export a keepsake first if you'd like to keep a copy.</p><div class="dialog-actions"><button class="secondary-button" value="cancel">Keep them</button><button class="danger-button" id="confirmClear" value="clear">Clear memories</button></div></form></dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="app.js"></script>
