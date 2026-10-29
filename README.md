@@ -4,7 +4,9 @@
 
 ## Try the judge demo
 
-Deploy this repository to Vercel and add `AI_GATEWAY_API_KEY` as a server-side environment variable for the deployment. The key is used only by `api/demo-question.js`; never put it in browser code, commit it, or share it in a public issue. The app's **Try the cloud sample** button calls a bodyless `GET` endpoint. That server route ignores visitor data and sends only its hard-coded fictional example to Gemma 4 through Vercel AI Gateway. Successful results are cached at the Vercel edge for one hour. This public endpoint has no strict global request quota; configure a Gateway budget and review usage before sharing it widely.
+**Live demo:** https://echoes-pearl-omega.vercel.app/
+
+The project is deployed on Vercel with `AI_GATEWAY_API_KEY` configured as a server-side environment variable. The key is used only by `api/demo-question.js`; never put it in browser code, commit it, or share it in a public issue. The app's **Try the cloud sample** button calls a bodyless `GET` endpoint. That server route ignores visitor data and sends only its hard-coded fictional example to Gemma 4 through Vercel AI Gateway. Successful results are cached at the Vercel edge for one hour. This public endpoint has no strict global request quota; configure a Gateway budget and review usage before sharing it widely.
 
 To deploy, import `karthik-zoro-96/echoes` into Vercel with the repository root as the project root, add `AI_GATEWAY_API_KEY` under **Settings → Environment Variables** for Preview and Production, then deploy. The function returns a helpful setup message until the key is configured. Vercel can also add the environment variable with its CLI; enter the key in the CLI prompt, not in a command argument.
 

@@ -1,6 +1,6 @@
 # Echoes: One Moment, Many Memories
 
-> Draft for the [Hacktoberfest Open-Source AI Challenge, Week 4: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26). Replace the demo placeholder after deployment. Add a genuine personal motivation or observed moment only if you want to share one; do not invent family testing or model metrics.
+> Draft for the [Hacktoberfest Open-Source AI Challenge, Week 4: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26). Add a genuine personal motivation or observed moment only if you want to share one; do not invent family testing or model metrics.
 
 ## What I built
 
@@ -10,7 +10,7 @@ An open-weight Gemma model has one small job: suggest a gentle follow-up questio
 
 ## Try it
 
-- **Live demo:** [Add Vercel deployment URL after deployment]
+- **Live demo:** https://echoes-pearl-omega.vercel.app/
 - **Source code:** https://github.com/karthik-zoro-96/echoes
 
 The starter entry is explicitly fictional. The hosted demo sends only that fixed example to Gemma 4 through Vercel AI Gateway; it does not send anything from a visitor's saved relay. To try the private path, install Ollama, run `ollama pull gemma3:4b`, start Ollama, serve the app from `localhost`, and add your own relay. The app can export those accounts as Markdown.
